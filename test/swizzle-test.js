@@ -55,13 +55,6 @@ describe('swizzle', function(){
 		a.deepEqual(t2(1, 2, 3), [2, 3, 1]);
 	});
 
-	it('should work with variadic functions', function(){
-		var arr = [];
-		var t2 = swizzle(arr.push.bind(arr), [1, 2, 0, 3]);
-		t2(1, 2, 3);
-		a.deepEqual(arr, [2, 3, 1]);
-	});
-
 	it('should work with constructor functions', function(){
 		function t (a, b, c) { this.a = a; this.b = b; this.c = c; }
 		t.prototype = { d: 'foo' };
