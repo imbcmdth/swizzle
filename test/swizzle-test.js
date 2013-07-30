@@ -45,13 +45,15 @@ describe('swizzle', function(){
 		function t (a, b, c) { return [a, b, c]; }
 		var t2 = swizzle(t, [1, 0]);
 
+		a.equal(t2.length, 3);
 		a.deepEqual(t2(1, 2, 3), [2, 1, 3]);
 	});
 
 	it('should allow more parameters than the function arity', function(){
 		function t (a, b, c) { return [a, b, c]; }
-		var t2 = swizzle(t, [1, 2, 0, 3]);
+		var t2 = swizzle(t, [1, 2, 0, 1]);
 
+		a.equal(t2.length, 3);
 		a.deepEqual(t2(1, 2, 3), [2, 3, 1]);
 	});
 
@@ -64,6 +66,27 @@ describe('swizzle', function(){
 		var o = new t2(1, 2, 3);
 		a.deepEqual(o, { a: 3, b: 2, c: 1 });
 		a.equal(o.d, 'foo');
+	});
+
+	it('should create functions with a larger arity if required by reordering', function(){
+		function t (a, b, c) { return [a, b, c]; }
+		var t2 = swizzle(t, [1, 2, 3]);
+
+		a.equal(t2.length, 4);
+	});
+
+	it('should create functions with a smaller arity if required by reordering', function(){
+		function t (a, b, c) { return [a, b, c]; }
+		var t2 = swizzle(t, [0, 1, 0]);
+
+		a.equal(t2.length, 2);
+	});
+
+	it('should work with variadic functions', function(){
+		function t () { return Array.prototype.slice.call(arguments); }
+		var t2 = swizzle(t, [1, 0]);
+
+		a.deepEqual(t2(1, 2, 3, 4), [2, 1, 3, 4]);
 	});
 
 });

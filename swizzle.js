@@ -28,6 +28,14 @@
 			return letters;
 		}
 
+		function fillOutPositions (newOrder, fnLength) {
+			if (newOrder.length < fnLength) {
+				for (var i = newOrder.length; i < fnLength; i++) {
+					newOrder[i] = i;
+				}
+			}
+		}
+
 		function reorderArguments (newOrder) {
 			return function (oldArgs) {
 				var theArgs = toArray(oldArgs);
@@ -46,7 +54,9 @@
 		}
 
 		function makeSwizzledFunction (fn, argPositions) {
-			var paramList = makeParameters(fn.length);
+			fillOutPositions(argPositions, fn.length);
+			var newLength = Math.max.apply(Math, argPositions) + 1;
+			var paramList = makeParameters(newLength);
 			var argReorder = reorderArguments(argPositions);
 
 			var functionCode = 'return false || function ';
@@ -64,11 +74,11 @@
 		function swizzle(fn, newArgPositions) {
 			var fnType = theTypeOf(fn);
 
-			if (theTypeOf(fn) === 'array') {
+			if (fnType === 'array') {
 				newArgPositions = fn;
 			}
 
-			if (theTypeOf(this) === 'function') {
+			if (fnType !== 'function' && theTypeOf(this) === 'function') {
 				fn = this;
 			}
 
