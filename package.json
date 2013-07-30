@@ -1,7 +1,7 @@
 {
   "name": "swizzle",
   "description": "Change the order of a function's parameters",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "homepage": "https://github.com/imbcmdth/swizzle",
   "repository": {
     "type": "git",
@@ -16,7 +16,8 @@
     "functional",
     "parameter",
     "partial application",
-    "reorder"
+    "reorder",
+    "arguments"
   ],
   "main": "./swizzle",
   "devDependencies": {
