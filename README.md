@@ -135,7 +135,7 @@ r20x30.area() //=> 600
 
 `swizzle( yourFunction , paramPositions )`
 
-* *yourFunction* `function` The function to which you wish to add some secret sauce. Swizzle returns a function with exactly the same arity as the function you pass into it which helps if you curry them later.
+* *yourFunction* `function` The function to which you wish to add some secret sauce. For the purposes of currying, `swizzle` returns a function with the arity that is implied by the reordering array.
 
 * *paramPositions* `array` The positions in the arguments of the new function that the original function's arguments will each be drawn *from*.
 
@@ -150,6 +150,8 @@ That's right! We just turned a 3 parameter function into one that takes 4 parame
 Absolutely nothing!
 
 ## Versions
+
+* [v1.1.0](https://github.com/imbcmdth/swizzle/archive/v1.1.0.zip) The arity of the returned now grows and shrinks if the parameter reordering implies a function with a different arity
 
 * [v1.0.0](https://github.com/imbcmdth/swizzle/archive/v1.0.0.zip) Initial functionality
 
