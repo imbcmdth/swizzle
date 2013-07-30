@@ -74,7 +74,8 @@ var subtract3 = subtractBA.bind(null, 3);
 //-- remapping of parameters in a "from" sense.
 
 //-- In other words, the array specifies where the parameter
-//-- in that position in the original gets its value *from*.
+//-- in that position in the original function's parameter list
+//-- obtains its value *from* in the new function's arguments.
 
 //-- Some examples to help illustrate the *from* quality:
 
