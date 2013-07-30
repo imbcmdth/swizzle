@@ -28,24 +28,26 @@
 			return letters;
 		}
 
-		function reorderArguments (newOrder, oldArgs) {
-			var theArgs = toArray(oldArgs);
-			var newArgs = [];
+		function reorderArguments (newOrder) {
+			return function (oldArgs) {
+				var theArgs = toArray(oldArgs);
+				var newArgs = [];
 
-			for ( var i = 0; i < theArgs.length; i++ ) {
-				if (i < newOrder.length) {
-					newArgs[i] = theArgs[newOrder[i]];
-				} else {
-					newArgs[i] = theArgs[i];
+				for ( var i = 0; i < theArgs.length; i++ ) {
+					if (i < newOrder.length) {
+						newArgs[i] = theArgs[newOrder[i]];
+					} else {
+						newArgs[i] = theArgs[i];
+					}
 				}
-			}
 
-			return newArgs;
+				return newArgs;
+			};
 		}
 
 		function makeSwizzledFunction (fn, argPositions) {
 			var paramList = makeParameters(fn.length);
-			var argReorder = reorderArguments.bind(null, argPositions);
+			var argReorder = reorderArguments(argPositions);
 
 			var functionCode = 'return false || function ';
 			functionCode += fn.name + '(';
