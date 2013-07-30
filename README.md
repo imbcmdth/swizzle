@@ -75,7 +75,7 @@ var subtract3 = subtractBA.bind(null, 3);
 
 //-- In other words, the array specifies where the parameter
 //-- in that position in the original function's parameter list
-//-- obtains its value *from* in the new function's arguments.
+//-- obtains its value from the new function's argument list.
 
 //-- Some examples to help illustrate the *from* quality:
 
@@ -84,10 +84,13 @@ function ABC(a, b, c) {
 }
 //  Destination Param:  A  B  C
 var BAC = swizzle(ABC, [1, 0, 2]);
+BAC(1, 2, 3) //=> [2, 1, 3]
 
 var CBA = swizzle(ABC, [2, 1, 0]);
+CBA(1, 2, 3) //=> [3, 2, 1]
 
 var CAC = swizzle(ABC, [2, 0, 2]);
+CAC(1, 2, 3) //=> [3, 1, 3]
 
 ```
 
