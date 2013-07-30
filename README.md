@@ -106,13 +106,13 @@ var multDiv = function(a, b, c) {
 	return a * b / c;
 }
 
-//-- Reorder to place the divisor first and partially 
+//-- Reorder to place the divisor first and then partially 
 //-- apply divisor:
 var multDivBy2 = multDiv.swizzle([1, 2, 0]).bind(null, 2);
 
 [3, 4, 5, 10].reduce(multDiv2) //=> 75  ie. product(numbers) / (2 ^ length - 1)
 
-//-- Swizzle can even rearrange the arguments of constructure function
+//-- Swizzle can even rearrange the arguments of constructor functions
 //-- for easier partial application of those silly little things:
 
 function Rectangle(w, h) {
@@ -133,13 +133,17 @@ r20x30.area() //=> 600
 
 ## API
 
-`swizzle( yourFunction , newParamPositions )`
+`swizzle( yourFunction , paramPositions )`
 
-* *yourFunction* `function` The function to which you wish to add some secret sauce.
+* *yourFunction* `function` The function to which you wish to add some secret sauce. Swizzle returns a function with exactly the same arity as the function you pass into it which helps if you curry them later.
 
-* *newParamPositions* `array` The positions in the arguments of the new function that the original function's arguments will each be drawn from.
+* *paramPositions* `array` The positions in the arguments of the new function that the original function's arguments will each be drawn *from*.
 
-That's it!
+There are no limitations imposed on the `paramPositions` array. It tries it's best to do what you ask of it.
+
+For example, if you have a function that takes three arguments. `swizzle(fn, [2, 3, 0])` says "get the first argument(0) from arguments[2], the second from arguments[3], and the third from arguments[0]."
+
+That's right! We just turned a 3 parameter function into one that takes 4 parameters but ignores the second argument passed into it. Pretty cool.
 
 ## What are *they* saying about Swizzle?
 
