@@ -30,20 +30,32 @@
 
 		function fillOutPositions (newOrder, fnLength) {
 			if (newOrder.length < fnLength) {
-				for (var i = newOrder.length; i < fnLength; i++) {
+				for ( var i = newOrder.length; i < fnLength; i++ ) {
 					newOrder[i] = i;
 				}
 			}
 		}
 
+		function getMaxLength (values) {
+			var positiveMax = Math.max.apply(Math, values) + 1,
+			    negativeMax = Math.max.apply(Math, values.map(Math.abs));
+
+			return Math.max(positiveMax, negativeMax);
+		}
+
 		function reorderArguments (newOrder) {
 			return function (oldArgs) {
-				var theArgs = toArray(oldArgs);
-				var newArgs = [];
+				var theArgs = toArray(oldArgs),
+				    theLength = theArgs.length,
+				    newArgs = [];
 
 				for ( var i = 0; i < theArgs.length; i++ ) {
 					if (i < newOrder.length) {
-						newArgs[i] = theArgs[newOrder[i]];
+						if (newOrder[i] < 0) {
+							newArgs[i] = theArgs[theLength + newOrder[i]];
+						} else {
+							newArgs[i] = theArgs[newOrder[i]];
+						}
 					} else {
 						newArgs[i] = theArgs[i];
 					}
@@ -54,15 +66,17 @@
 		}
 
 		function makeSwizzledFunction (fn, argPositions) {
+			// Fill in any undefined argPositions with the default mapping
 			fillOutPositions(argPositions, fn.length);
-			var newLength = Math.max.apply(Math, argPositions) + 1;
-			var paramList = makeParameters(newLength);
-			var argReorder = reorderArguments(argPositions);
 
-			var functionCode = 'return false || function ';
-			functionCode += fn.name + '(';
+			var newLength = getMaxLength(argPositions),
+			    paramList = makeParameters(newLength),
+			    argReorder = reorderArguments(argPositions),
+			    functionCode = '';
+
+			functionCode += 'return false || function ' + fn.name + '(';
 			functionCode += paramList.join(', ') + ') {\n';
-			functionCode += 'return fn.apply(this, reorder(arguments));\n';
+			functionCode += '\treturn fn.apply(this, reorder(arguments));\n';
 			functionCode += '};'
 
 			var wrappedFn = Function("fn", "reorder", functionCode)(fn, argReorder);

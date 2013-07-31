@@ -34,11 +34,11 @@ describe('swizzle', function(){
 		a.deepEqual(t2(1, 2, 3), [1, 2, 2]);
 	});
 
-	it('should allow out-of-bound parameters', function(){
+	it('should allow end-relative parameters', function(){
 		function t (a, b, c) { return [a, b, c]; }
-		var t2 = swizzle(t, [0, -1, 4]);
+		var t2 = swizzle(t, [-1, -2, 0]);
 
-		a.deepEqual(t2(1, 2, 3), [1, undefined, undefined]);
+		a.deepEqual(t2(1, 2, 3, 4), [4, 3, 1]);
 	});
 
 	it('should allow fewer parameters than the function arity', function(){

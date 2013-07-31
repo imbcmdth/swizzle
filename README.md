@@ -12,6 +12,8 @@ Arbitrarily change the order of a function's parameters.
 
 * [Intermediate Usage](#intermediate-usage)
 
+* [Advanced Usage](#advanced-usage)
+
 * [API](#api)
 
 * [What are they saying?](#what-are-they-saying-about-swizzle)
@@ -131,6 +133,24 @@ var r20x30 = new Rect30H(20);
 r20x30.area() //=> 600
 ````
 
+## Advanced Usage
+
+```javascript
+//-- Swizzle allows you to specifie end-relative reorderings
+//-- This is especially useful for bringing the callback of 
+//-- variadic function to the first parameter.
+
+function callbackLast () {
+	var last = arguments.length - 1;
+	return arguments[last];
+}
+
+var callbackFirst = swizzle(callbackLast, [-1]);
+
+callbackFirst(0,1,2,3) //=> 3
+
+````
+
 ## API
 
 `swizzle( yourFunction , paramPositions )`
@@ -147,9 +167,11 @@ That's right! We just turned a 3 parameter function into one that takes 4 parame
 
 ## What are *they* saying about Swizzle?
 
-Absolutely nothing!
+[dwcook](https://github.com/dwcook/): "I suppose that's helpful with curry"
 
 ## Versions
+
+* [v1.1.1](https://github.com/imbcmdth/swizzle/archive/v1.1.1.zip) Allow end-relative ordering with negative reorder-values
 
 * [v1.1.0](https://github.com/imbcmdth/swizzle/archive/v1.1.0.zip) The arity of the returned now grows and shrinks if the parameter reordering implies a function with a different arity
 
